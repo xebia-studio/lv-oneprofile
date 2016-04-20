@@ -12,8 +12,11 @@
 $brand-color: #61dafb;
 
 .root {
-  background: #373277;
-  color: #fff;
+  //background: #373277;
+  //color: #fff;
+  background: white;
+  color: $vuitton-brown;
+  box-shadow: 0 2px 1px $vuitton-gray;
 }
 
 .container {
@@ -23,13 +26,14 @@ $brand-color: #61dafb;
 }
 
 .brand {
-  color: color($brand-color lightness(+10%));
+  //color: color($brand-color lightness(+10%));
+  color: $vuitton-brown;
   text-decoration: none;
   font-size: 1.75em; /* ~28px */
 }
 
 .brandTxt {
-  margin-left: 10px;
+  //margin-left: 10px;
 }
 
 .nav {
