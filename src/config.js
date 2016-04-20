@@ -13,7 +13,8 @@
 export const port = process.env.PORT || 3000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
-export const databaseUrl = process.env.DATABASE_URL || 'postgresql://demo:Lqk62xg6TBm5UhfR@demo.ctbl5itzitm4.us-east-1.rds.amazonaws.com:5432/membership01';
+//export const databaseUrl = process.env.DATABASE_URL ||
+//  'postgresql://demo:Lqk62xg6TBm5UhfR@demo.ctbl5itzitm4.us-east-1.rds.amazonaws.com:5432/membership01';
 
 export const analytics = {
 
@@ -44,4 +45,22 @@ export const auth = {
     secret: process.env.TWITTER_CONSUMER_SECRET || 'KTZ6cxoKnEakQCeSpZlaUCJWGAlTEBJj0y2EMkUBujA7zWSvaQ',
   },
 
+};
+
+export const db = {
+  debug: process.env.NODE_ENV !== 'production',
+  client: 'pg',
+  connection: {
+    host: process.env.POSTGRESQL_HOSTNAME || 'localhost',
+    port: process.env.POSTGRESQL_PORT || 5432,
+    database: process.env.POSTGRESQL_DATABASE || 'oneprofile',
+    user: process.env.POSTGRESQL_USERNAME || 'lvlearningdev',
+    password: process.env.POSTGRESQL_PASSWORD || 'lvlearningdev2016!',
+    charset: (process.env.POSTGRESQL_CHARSET || 'UTF8MB4_GENERAL_CI').toUpperCase()
+  },
+  pool: {
+    min: process.env.POSTGRESQL_POOL_MIN || 0,
+    max: process.env.POSTGRESQL_POOL_MAX || 256,
+    bailAfter: process.env.POSTGRESQL_BAIL_AFTER || Infinity
+  }
 };
