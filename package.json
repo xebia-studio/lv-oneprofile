@@ -105,6 +105,7 @@
     "build": "babel-node tools/run build",
     "deploy": "babel-node tools/run deploy",
     "dev": "babel-node tools/run start",
+    "postinstall": "npm run build",
     "start": "node build/server.js"
   }
 }
