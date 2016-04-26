@@ -25,6 +25,10 @@ html {
   line-height: 1.375; /* ~22px */
 }
 
+body {
+  background: $vuitton-bg-gray;
+}
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301

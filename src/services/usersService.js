@@ -5,25 +5,11 @@
 
 import Knex from "knex";
 import * as _ from 'lodash';
-import { db} from "../config";
+import { db } from "../config";
 
 export default class UsersServices {
 
   knex = Knex(db);
-
-  getUsersByDisplayName(displayName) {
-    return this.knex
-      .raw(`SELECT *, concat(firstname, ' ', lastname) as displayName
-            FROM users
-            WHERE concat(firstname, ' ', lastname) ILIKE '%${displayName}%'
-            ORDER BY concat(firstname, ' ', lastname) ASC`)
-      .then(resultSet => {
-        if (!resultSet || _.isEmpty(resultSet.rows)) {
-          return []
-        }
-        return _.map(resultSet.rows, UsersServices.transformUserDb);
-      });
-  }
 
   static transformUserDb(user) {
     return {
@@ -39,6 +25,71 @@ export default class UsersServices {
       uniqueId: user.uniqueid,
       displayName: user.displayname
     }
+  }
+
+  getUsers() {
+    return this.knex
+      .select('*')
+      .from('users')
+      .then(resultSet => {
+        return _.map(resultSet, UsersServices.transformUserDb);
+      });
+  }
+
+  getUserById(id) {
+    return this.knex
+      .select('*')
+      .from('users')
+      .where({ id: id })
+      .then(resultSet => {
+        return _.head(_.map(resultSet, UsersServices.transformUserDb));
+      });
+  }
+
+  getUsersByIds(ids) {
+    return this.knex
+      .select('*')
+      .from('users')
+      .whereIn('id', ids)
+      .then(resultSet => {
+        return _.map(resultSet, UsersServices.transformUserDb);
+      });
+  }
+
+  getUsersByDisplayName(displayName) {
+    return this.knex
+      .raw(`SELECT *, concat(firstname, ' ', lastname) as displayName
+            FROM users
+            WHERE concat(firstname, ' ', lastname) ILIKE '%${displayName}%'
+            ORDER BY concat(firstname, ' ', lastname) ASC`)
+      .then(resultSet => {
+        if (!resultSet || _.isEmpty(resultSet.rows)) {
+          return []
+        }
+        return _.map(resultSet.rows, UsersServices.transformUserDb);
+      });
+  }
+
+  getDistinctCountriesFromUsers() {
+    return this.knex
+      .distinct('country')
+      .select()
+      .from('users')
+      .whereNotNull('country')
+      .then(countries => {
+        return _.map(countries, 'country');
+      });
+  }
+
+  getDistinctStoresFromUsers() {
+    return this.knex
+      .distinct('work_location')
+      .select()
+      .from('users')
+      .whereNotNull('work_location')
+      .then(countries => {
+        return _.map(countries, 'work_location');
+      });
   }
 
 }

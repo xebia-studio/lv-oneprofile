@@ -6,9 +6,14 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
+@import '../variables.scss';
 
 .root {
 
+}
+
+.container {
+  box-shadow: 1px;
 }
 
 .link {
@@ -18,14 +23,19 @@
   font-size: 1.125em; /* ~18px */
 }
 
-.link,
-.link:active,
-.link:visited {
-  color: rgba(255, 255, 255, .6);
-}
+.link {
+  color: $vuitton-brown;
 
-.link:hover {
-  color: rgba(255, 255, 255, 1);
+  &.active {
+    //color: rgba(255, 255, 255, .6);
+    font-weight: bold;
+  }
+
+  &:hover {
+    //color: rgba(255, 255, 255, 1);
+    color: black;
+  }
+
 }
 
 .highlight {
