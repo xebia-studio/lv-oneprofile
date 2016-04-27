@@ -16,6 +16,7 @@ export default class UsersServices {
       id: user.id,
       userName: user.username,
       lastName: user.lastname,
+      fistName: user.firstname,
       mail: user.mail,
       country: user.country,
       zone: user.zone,

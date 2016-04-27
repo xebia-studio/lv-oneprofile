@@ -15,8 +15,8 @@ import fetch from './lib/fetch';
 // For more information visit http://gitolite.com/deploy.html
 const getRemote = (slot) => ({
   name: slot || 'production',
-  url: `https://git.heroku.com/lv-oneprofile-dev.git`,
-  website: `http://lv-oneprofile-dev.herokuapp.com`,
+  url: `https://git.heroku.com/oneprofile-dev.git`,
+  website: `http://oneprofile-dev.herokuapp.com`,
 });
 
 /**
