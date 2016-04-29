@@ -15,6 +15,8 @@ import bodyParser from 'body-parser';
 import expressGraphQL from 'express-graphql';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import strategy from './passport/strategies/basicStrategy';
+import passport from 'passport';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
@@ -43,6 +45,8 @@ server.use(express.static(path.join(__dirname, 'public')));
 server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
+
+passport.use(strategy);
 
 //
 // Authentication

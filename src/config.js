@@ -64,3 +64,10 @@ export const db = {
     bailAfter: process.env.POSTGRESQL_BAIL_AFTER || Infinity
   }
 };
+
+export const idol = {
+  credentials: {
+    username: process.env.IDOL_USERNAME || 'idol',
+    password: process.env.IDOL_PASSWORD || 'idolP@ss'
+  }
+};
