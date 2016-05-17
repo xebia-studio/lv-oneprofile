@@ -6,6 +6,7 @@
 import { Router } from 'express';
 import Oauth2Lib from 'oauth20-provider';
 import Client from './models/client';
+import Code from './models/code';
 import SamlStrategy from './strategy/samlStrategy';
 
 export const oauth2 = new Oauth2Lib({log: {level: 4}});
@@ -13,6 +14,7 @@ const router = new Router();
 const samlStrategy = new SamlStrategy();
 
 oauth2.model.client = new Client();
+oauth2.model.code = new Code(31536000); //1y
 
 // Step 1: Define OAuth2 Authorization Endpoint
 router.get('/authorization', isUserAuthenticated, (req, res, next) => {
@@ -27,7 +29,7 @@ router.post('/login', () => {
   //TODO: session.user = userFromDB;
 });
 
-// Ask for a code 
+// Ask for a code
 router.post('/authorization', isUserAuthorized, oauth2.controller.authorization);
 
 // Define OAuth2 Token Endpoint
