@@ -22,7 +22,8 @@ async function copy({ watch } = {}) {
   await Promise.all([
     ncp('src/public', 'build/public'),
     ncp('src/content', 'build/content'),
-    ncp('package.json', 'build/package.json'),
+    ncp('src/certificates', 'build/certificates'),
+    ncp('package.json', 'build/package.json')
   ]);
 
   replace({
@@ -30,7 +31,7 @@ async function copy({ watch } = {}) {
     replacement: '"start": "node server.js"',
     paths: ['build/package.json'],
     recursive: false,
-    silent: false,
+    silent: false
   });
 
   if (watch) {

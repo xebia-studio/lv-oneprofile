@@ -5,9 +5,12 @@
 
 import { Router } from 'express';
 import users from './users/users';
+import oauth from './oauth/oauth';
 
 const router = new Router({ mergeParams: true });
 
 router.use('/users', users);
+
+router.use('/oauth', oauth);
 
 export default router;
