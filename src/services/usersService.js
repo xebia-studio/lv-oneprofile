@@ -44,6 +44,20 @@ export default class UsersServices {
     }
   }
 
+  getId(user) {
+    return user.id;
+  }
+
+  getUserByEmail(email) {
+    return this.knex
+      .select('*')
+      .from('users')
+      .where({ mail: email })
+      .then(resultSet => {
+        return _.head(_.map(resultSet, UsersServices.transformUserDb));
+      });
+  }
+
   saveUser(user) {
     return this.userExists(user.mail)
       .then((exists) => {

@@ -7,12 +7,14 @@ import { Router } from 'express';
 import Oauth2Lib from 'oauth20-provider';
 import Client from './models/client';
 import Code from './models/code';
+import UsersService from '../../../services/usersService';
 import SamlStrategy from './strategy/samlStrategy';
 
 export const oauth2 = new Oauth2Lib({log: {level: 4}});
 const router = new Router();
 const samlStrategy = new SamlStrategy();
 
+const usersService = new UsersService();
 oauth2.model.client = new Client();
 oauth2.model.code = new Code(31536000); //1y
 
@@ -24,7 +26,16 @@ router.get('/authorization', isUserAuthenticated, (req, res, next) => {
 });
 
 // Callback for SAML
-router.post('/login', () => {
+router.post('/login', (res) => {
+  //console.log('users logged in :', res);
+  samlStrategy.validateSAMLResponse(res.body, (response) => {
+    console.log('saml response :', response);
+
+    usersService.getUserByEmail('kevin.boquet-ext@louisvuitton.com')
+      .then((user) => {
+        console.log(user);
+      });
+  });
   //TODO: getUserFromDB
   //TODO: session.user = userFromDB;
 });
