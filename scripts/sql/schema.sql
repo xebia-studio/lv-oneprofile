@@ -4,6 +4,7 @@ CREATE TABLE users (
   username        TEXT NOT NULL,
   lastname        TEXT NOT NULL,
   firstname       TEXT NOT NULL,
+  displayname     TEXT NOT NULL,
   mail            TEXT NOT NULL,
   country         TEXT,
   zone            TEXT,
@@ -15,6 +16,7 @@ CREATE TABLE users (
 
 SELECT
   CONCAT('INSERT INTO users (
+    "displayname",
     "username",
     "lastname",
     "firstname",
@@ -23,10 +25,10 @@ SELECT
     "zone",
     "seniority",
     "work_location")
-    values (''', infos.username, ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.mail, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''')')
+    values (''', infos.displayname, ''', ''', lower(replace(CONCAT(LEFT(infos.firstname , 1), infos.lastname) , ' ','')), ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.mail, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''');')
   from (SELECT
       id,
-      displayName as username,
+      displayName as displayname,
       SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 1), ' ', -1) AS firstname,
       CONCAT(If(  length(displayName) - length(replace(displayName, ' ', ''))>1,
 		  CONCAT(SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 2), ' ', -1), ' '), ''),
