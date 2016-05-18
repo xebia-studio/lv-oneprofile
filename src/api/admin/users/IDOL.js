@@ -26,14 +26,4 @@ router.post('/updateUser', passport.authenticate('basic', { session: false }), (
   });
 });
 
-router.post('/updateServerError', passport.authenticate('basic', { session: false }), (req, res, next) => {
-  let user = req.body;
-  res.status(500).end(`Server error on user update for: ${JSON.stringify(user)}.`);
-});
-
-router.post('/updateBadRequest', passport.authenticate('basic', { session: false }), (req, res, next) => {
-  let user = req.body;
-  res.status(400).end(`Failed to save user: ${JSON.stringify(user)}.`);
-});
-
 export default router;
