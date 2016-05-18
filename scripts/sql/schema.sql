@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id              SERIAL PRIMARY KEY,
-  username        TEXT NOT NULL,
-  lastname        TEXT NOT NULL,
-  firstname       TEXT NOT NULL,
-  displayname     TEXT NOT NULL,
+  username        TEXT,
+  lastname        TEXT,
+  firstname       TEXT,
+  displayname     TEXT,
   mail            TEXT NOT NULL,
   country         TEXT,
   zone            TEXT,
