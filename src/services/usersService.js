@@ -16,7 +16,7 @@ export default class UsersServices {
       id: user.id,
       userName: user.username,
       lastName: user.lastname,
-      fistName: user.firstname,
+      firstName: user.firstname,
       mail: user.mail,
       country: user.country,
       zone: user.zone,
@@ -26,6 +26,63 @@ export default class UsersServices {
       uniqueId: user.uniqueid,
       displayName: user.displayname
     }
+  }
+
+  static transformUserFromICON(user) {
+    return {
+      username: user.ADAccount,
+      lastname: user.Name,
+      firstname: user.GivenName,
+      mail: user.Mail,
+      country: user.Country,
+      zone: user.Zone,
+      seniority: user.ContractStartDate,
+      work_location: user.Store,
+      windows_account: user.windows_account,
+      uniqueid: user.uniqueid,
+      displayname: user.GivenName + ' ' + user.Name
+    }
+  }
+
+  saveUser(user) {
+    return this.userExists(user.mail)
+      .then((exists) => {
+        if(exists) {
+          return this.updateUser(user).then((res) => {
+            return res;
+          });
+        }
+        else {
+          return this.insertUser(user).then((res) => {
+            return res;
+          });
+        }
+      });
+  }
+
+  insertUser(user) {
+    return this.knex('users')
+      .insert(user)
+      .then((res) => {
+        return res;
+    });
+  }
+
+  updateUser(user) {
+    return this.knex('users')
+      .update(user)
+      .where('id', user.id)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  userExists(email) {
+    return this.knex
+      .raw("select count(1) from users where mail = '" + email + "'")
+      .then((res) => {
+        return res.rows[0].count != 0;
+      });
   }
 
   getUsers() {
