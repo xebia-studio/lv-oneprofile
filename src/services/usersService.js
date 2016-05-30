@@ -45,10 +45,10 @@ export default class UsersServices {
   }
 
   saveUser(user) {
-    return this.userExists(user.mail)
-      .then((exists) => {
-        if(exists) {
-          return this.updateUser(user).then((res) => {
+    return this.getUserId(user.mail)
+      .then((userId) => {
+        if(userId) {
+          return this.updateUser(userId, user).then((res) => {
             return res;
           });
         }
@@ -68,20 +68,23 @@ export default class UsersServices {
     });
   }
 
-  updateUser(user) {
+  updateUser(userId, user) {
     return this.knex('users')
       .update(user)
-      .where('id', user.id)
+      .where('id', userId)
       .then((res) => {
         return res;
       });
   }
 
-  userExists(email) {
+  getUserId(email) {
     return this.knex
-      .raw("select count(1) from users where mail = '" + email + "'")
+      .raw("select id from users where mail = '" + email + "'")
       .then((res) => {
-        return res.rows[0].count != 0;
+        if(!res.rows.length) {
+          return 0;
+        }
+        return res.rows[0].id;
       });
   }
 
