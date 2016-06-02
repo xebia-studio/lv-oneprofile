@@ -74,7 +74,7 @@ export const idol = {
   }
 };
 
-export const SAML = {
+export const SAMLStrategy = {
   entryPoint: process.env.SAML_ENTRY_POINT || 'https://fed-prp.vuitton.biz/adfs/ls/',
   issuer: process.env.SAML_ISSUER || 'LV-ONEPROFILE',
   callbackUrl: process.env.SAML_CALLBACK_URL || 'https://oneprofile-prd.herokuapp.com/api/v1/oauth/login',
@@ -82,4 +82,8 @@ export const SAML = {
   privateCert: fs.readFileSync(`${__dirname}/certificates/saml/saml.pem`, 'utf-8'),
   decryptionPvk: fs.readFileSync(`${__dirname}/certificates/saml/saml.pem`, 'utf-8'),
   identifierFormat: null
+};
+
+export const SAML = {
+  entryId: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
 };

@@ -1,9 +1,9 @@
 import PassportSaml from 'passport-saml';
-import { SAML } from '../../../../config'
+import { SAMLStrategy } from '../../../../config';
 
 export default class SamlStrategy {
 
-  saml = new PassportSaml.SAML(SAML);
+  saml = new PassportSaml.SAML(SAMLStrategy);
 
   getSamlRequest(req, callback) {
     this.saml.getAuthorizeUrl(req, callback);

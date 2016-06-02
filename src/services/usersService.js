@@ -48,6 +48,11 @@ export default class UsersServices {
     return user.id;
   }
 
+  fetchFromRequest(request) {
+    console.log('user :', request.session.user);
+    return request.session.user;
+  }
+
   getUserByEmail(email) {
     return this.knex
       .select('*')

@@ -54,7 +54,7 @@ server.use(session({
     pg: pg, // Use global pg-module
     conString: process.env.DATABASE_URL || 'postgres://lvlearningdev:lvlearningdev2016!@localhost/oneprofile',
     tableName: 'session' // Use another table-name than the default "session" one
-  }),
+  }), 
   secret: 'oneprofilesecret',
   resave: false,
   saveUninitialized: false,

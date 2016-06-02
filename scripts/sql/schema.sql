@@ -58,6 +58,9 @@ CREATE TABLE clients (
   redirect_uri  TEXT NOT NULL
 );
 
+INSERT INTO clients(client_id, name, client_secret, redirect_uri)
+VALUES (1, 'LIVE', '123', 'https://lvlive-dev.herokuapp.com');
+
 SELECT
   CONCAT('INSERT INTO users (
     "displayname",
