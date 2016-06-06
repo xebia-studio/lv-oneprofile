@@ -16,7 +16,6 @@ export default class Code {
 
   constructor(ttl) {
     this.ttl = ttl;
-    console.log(this.ttl);
   }
 
   create(userId, clientId, scope, ttl, cb) {
@@ -43,13 +42,14 @@ export default class Code {
       .then(() => cb(null, code));
   }
 
-  fetchByCode(item, cb) {
+  fetchByCode(code, cb) {
+    console.log('code :', code);
     this.knex.select('*')
       .from('authorization_codes')
       .where({
-        id: item.id
+        code: code
       })
-      .asCallback(cb);
+      .then((items) => cb(null, items[0]));
   }
 
   getUserId(item) {
@@ -57,10 +57,11 @@ export default class Code {
   }
 
   getClientId(item) {
+    console.log('item :', item);
     return item.client_id;
   }
 
-  checkTtl(item) {
+  checkTTL(item) {
     return moment(item.expires).isAfter(moment());
   }
 

@@ -22,7 +22,8 @@ export default class Client {
 
   // noinspection JSMethodCanBeStatic
   getId(client) {
-    return client.id;
+    console.log('client :', client);
+    return client.clientId;
   }
 
   fetchById(clientId, cb) {
@@ -42,6 +43,7 @@ export default class Client {
           )})
       .then((data) => {
         client.grantTypes = _.map(data, 'grant_type');
+        console.log('client :', client);
         cb(null, client);
       });
   }
@@ -72,7 +74,7 @@ export default class Client {
   // noinspection JSMethodCanBeStatic
   checkSecret(client, secret, cb) {
     //TODO: Compléter avec un hash ?
-    return cb(null, client.secret == secret);
+    return cb(null, client.clientSecret == secret);
   };
 
 }

@@ -109,6 +109,7 @@ DROP TABLE IF EXISTS authorization_codes;
 CREATE TABLE authorization_codes (
   id        SERIAL PRIMARY KEY,
   code      TEXT                        NOT NULL,
+  scope     TEXT,
   client_id INT                         NOT NULL REFERENCES clients (id),
   user_id   INT                        NOT NULL REFERENCES users (id),
   expires   TIMESTAMP WITHOUT TIME ZONE NOT NULL
@@ -130,6 +131,7 @@ DROP TABLE IF EXISTS access_tokens;
 CREATE TABLE access_tokens (
   id           SERIAL PRIMARY KEY,
   access_token TEXT                        NOT NULL,
+  scope        TEXT                        NOT NULL,
   client_id    INT                         NOT NULL REFERENCES clients (id),
   user_id      INT                         NOT NULL REFERENCES users (id),
   expires      TIMESTAMP WITHOUT TIME ZONE NOT NULL

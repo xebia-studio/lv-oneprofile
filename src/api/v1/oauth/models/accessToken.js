@@ -6,11 +6,17 @@
 import Knex from 'knex';
 import { db } from "../../../../config";
 import crypto from 'crypto';
+import moment from 'moment';
 import _ from 'lodash';
 
-export default class User {
+export default class AccessToken {
 
   knex = Knex(db);
+  ttl = 36000000;
+
+  constructor(ttl) {
+    this.ttl = ttl;
+  }
 
   getToken(accessToken) {
     return accessToken;
@@ -18,10 +24,10 @@ export default class User {
 
   create(userId, clientId, scope, ttl, cb) {
     const token = crypto.randomBytes(64).toString('hex');
-    const expires = new Date().getTime() + ttl * 1000;
+    const expires = moment(new Date()).add(ttl);
     const obj =
     {
-      token: token,
+      access_token: token,
       user_id: userId,
       client_id: clientId,
       expires: expires,
@@ -30,7 +36,7 @@ export default class User {
     this.knex()
       .select('id')
       .from('access_tokens')
-      .where({cliend_id: clientId, user_id: userId})
+      .where({client_id: clientId, user_id: userId})
       .then((rows) => {
         if(rows.length) {
           const row = _.head(rows);
@@ -53,15 +59,15 @@ export default class User {
       })
   };
 
-  var fetchByToken = function(token, cb) {
-    this.knex.select('*')
+  fetchByToken = function(token, cb) {
+    this.knex('access_tokens').select('*')
       .from('access_tokens')
       .where({token: token})
       .asCallback(cb);
   };
 
-  var fetchByUserIdClientId = function(userId, clientId, cb) {
-    this.knex.select('*')
+  fetchByUserIdClientId = function(userId, clientId, cb) {
+    this.knex('access_tokens').select('*')
       .from('access_tokens')
       .where({user_id: userId, client_id: clientId})
       .asCallback(cb);

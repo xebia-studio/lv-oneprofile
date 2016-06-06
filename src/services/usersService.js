@@ -49,8 +49,9 @@ export default class UsersServices {
   }
 
   fetchFromRequest(request) {
+    console.log('request.body.session :', request.body.session);
     console.log('user :', request.session.user);
-    return request.session.user;
+    return request.body.session.user;
   }
 
   getUserByEmail(email) {

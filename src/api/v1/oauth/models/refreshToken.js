@@ -7,7 +7,7 @@ import Knex from 'knex';
 import { db } from "../../../../config";
 import crypto from 'crypto';
 
-export default class User {
+export default class RefreshToken {
 
   knex = Knex(db);
 
