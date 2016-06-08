@@ -10,8 +10,11 @@ CREATE TABLE users (
   zone            TEXT,
   seniority       TEXT,
   work_location   TEXT,
-  windows_account TEXT,
-  uniqueID        TEXT
+  unique_id       TEXT,
+  job             TEXT,
+  event           TEXT,
+  flagLive        TEXT,
+  flagLearning    TEXT
 );
 -- CREATE INDEX users_email ON users USING BTREE (mail);
 
