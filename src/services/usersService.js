@@ -17,14 +17,17 @@ export default class UsersServices {
       userName: user.username,
       lastName: user.lastname,
       firstName: user.firstname,
+      job: user.job,
       mail: user.mail,
       country: user.country,
       zone: user.zone,
       seniority: user.seniority,
       workLocation: user.work_location,
-      windowsAccount: user.windows_account,
-      uniqueId: user.uniqueid,
-      displayName: user.displayname
+      uniqueId: user.unique_id,
+      displayName: user.displayname,
+      event: user.event,
+      flagLive: user.flag_live,
+      flagLearning: user.flag_learning
     }
   }
 
@@ -33,14 +36,17 @@ export default class UsersServices {
       username: user.ADAccount,
       lastname: user.Name,
       firstname: user.GivenName,
+      job: user.JobClassificationLabel,
       mail: user.Mail,
       country: user.Country,
       zone: user.Zone,
       seniority: user.ContractStartDate,
       work_location: user.Store,
-      windows_account: user.windows_account,
-      uniqueid: user.uniqueid,
-      displayname: user.GivenName + ' ' + user.Name
+      unique_id: user.HRUniqueID,
+      displayname: user.GivenName + ' ' + user.Name,
+      event: user.Event,
+      flag_live: user.lvmLiveEntitlement,
+      flag_learning: user.lvmLearningEntitlement
     }
   }
 
