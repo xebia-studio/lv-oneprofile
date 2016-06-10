@@ -11,6 +11,4 @@ const router = new Router({ mergeParams: true });
 
 router.use('/users', users);
 
-router.use('/oauth', oauth);
-
 export default router;
