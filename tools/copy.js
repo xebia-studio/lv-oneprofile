@@ -22,7 +22,6 @@ async function copy({ watch } = {}) {
   await Promise.all([
     ncp('src/public', 'build/public'),
     ncp('src/content', 'build/content'),
-    ncp('src/certificates', 'build/certificates'),
     ncp('package.json', 'build/package.json')
   ]);
 

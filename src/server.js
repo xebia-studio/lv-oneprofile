@@ -30,9 +30,6 @@ import api from './api/route';
 import session from 'express-session';
 import pg from 'pg';
 import connectPg from 'connect-pg-simple';
-// import Oauth2Lib from 'oauth20-provider';
-// TODO: Etre sur que ca fonctionne bien
-import { oauth2 } from './api/v1/oauth/oauth';
 
 const server = global.server = express();
 const PgSession = connectPg(session);
@@ -54,7 +51,7 @@ server.use(session({
     pg: pg, // Use global pg-module
     conString: process.env.DATABASE_URL || 'postgres://lvlearningdev:lvlearningdev2016!@localhost/oneprofile',
     tableName: 'session' // Use another table-name than the default "session" one
-  }), 
+  }),
   secret: 'oneprofilesecret',
   resave: false,
   saveUninitialized: false,
@@ -64,36 +61,6 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
 passport.use(strategy);
-
-//
-// Authentication
-// -----------------------------------------------------------------------------
-
-//server.use(expressJwt({
-//  secret: auth.jwt.secret,
-//  credentialsRequired: false,
-//  /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-//  getToken: req => req.cookies.id_token
-//  /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
-//}));
-//server.use(passport.initialize());
-//
-//server.get('/login/facebook',
-//  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-//);
-//server.get('/login/facebook/return',
-//  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-//  (req, res) => {
-//    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-//    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-//    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-//    res.redirect('/');
-//  }
-//);
-
-// const oauth2 = new Oauth2Lib({log: {level: 4}});
-server.use(oauth2.inject());
-
 
 //
 // Register API middleware
