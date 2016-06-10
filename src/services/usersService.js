@@ -95,6 +95,7 @@ export default class UsersServices {
   }
 
   updateUser(userId, user) {
+    user.updated_at = new Date();
     return this.knex('users')
       .update(user)
       .where('id', userId)

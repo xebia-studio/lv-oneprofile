@@ -5,6 +5,12 @@ ALTER TABLE users
 ADD event TEXT;
 
 ALTER TABLE users
+ADD created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE users
+ADD updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE users
 ADD flag_live TEXT;
 
 ALTER TABLE users
