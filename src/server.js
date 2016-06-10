@@ -15,6 +15,8 @@ import bodyParser from 'body-parser';
 import expressGraphQL from 'express-graphql';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import strategy from './passport/strategies/basicStrategy';
+import passport from 'passport';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
@@ -25,9 +27,15 @@ import api from './api/route';
  import jwt from 'jsonwebtoken';
  import passport from './core/passport';
  */
-
+import session from 'express-session';
+import pg from 'pg';
+import connectPg from 'connect-pg-simple';
+// import Oauth2Lib from 'oauth20-provider';
+// TODO: Etre sur que ca fonctionne bien
+import { oauth2 } from './api/v1/oauth/oauth';
 
 const server = global.server = express();
+const PgSession = connectPg(session);
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -41,12 +49,26 @@ global.navigator.userAgent = global.navigator.userAgent || 'all';
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
 server.use(cookieParser());
+server.use(session({
+  store: new PgSession({
+    pg: pg, // Use global pg-module
+    conString: process.env.DATABASE_URL || 'postgres://lvlearningdev:lvlearningdev2016!@localhost/oneprofile',
+    tableName: 'session' // Use another table-name than the default "session" one
+  }), 
+  secret: 'oneprofilesecret',
+  resave: false,
+  saveUninitialized: false,
+  user: null
+}));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
+
+passport.use(strategy);
 
 //
 // Authentication
 // -----------------------------------------------------------------------------
+
 //server.use(expressJwt({
 //  secret: auth.jwt.secret,
 //  credentialsRequired: false,
@@ -68,6 +90,10 @@ server.use(bodyParser.json());
 //    res.redirect('/');
 //  }
 //);
+
+// const oauth2 = new Oauth2Lib({log: {level: 4}});
+server.use(oauth2.inject());
+
 
 //
 // Register API middleware

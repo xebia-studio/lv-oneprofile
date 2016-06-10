@@ -21,18 +21,13 @@
   padding: 3px 8px;
   text-decoration: none;
   font-size: 1.125em; /* ~18px */
-}
-
-.link {
   color: $vuitton-brown;
 
   &.active {
-    //color: rgba(255, 255, 255, .6);
     font-weight: bold;
   }
 
   &:hover {
-    //color: rgba(255, 255, 255, 1);
     color: black;
   }
 

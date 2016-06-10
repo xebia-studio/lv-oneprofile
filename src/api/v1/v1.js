@@ -5,6 +5,7 @@
 
 import { Router } from 'express';
 import users from './users/users';
+import oauth from './oauth/oauth';
 
 const router = new Router({ mergeParams: true });
 

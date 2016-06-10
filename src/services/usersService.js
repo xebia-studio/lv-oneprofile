@@ -16,16 +16,103 @@ export default class UsersServices {
       id: user.id,
       userName: user.username,
       lastName: user.lastname,
-      fistName: user.firstname,
+      firstName: user.firstname,
+      job: user.job,
       mail: user.mail,
       country: user.country,
       zone: user.zone,
       seniority: user.seniority,
       workLocation: user.work_location,
-      windowsAccount: user.windows_account,
-      uniqueId: user.uniqueid,
-      displayName: user.displayname
+      uniqueId: user.unique_id,
+      displayName: user.displayname,
+      event: user.event,
+      flagLive: user.flag_live,
+      flagLearning: user.flag_learning
     }
+  }
+
+  static transformUserFromICON(user) {
+    return {
+      username: user.ADAccount,
+      lastname: user.Name,
+      firstname: user.GivenName,
+      job: user.JobClassificationLabel,
+      mail: user.Mail,
+      country: user.Country,
+      zone: user.Zone,
+      seniority: user.ContractStartDate,
+      work_location: user.Store,
+      unique_id: user.HRUniqueID,
+      displayname: user.GivenName + ' ' + user.Name,
+      event: user.Event,
+      flag_live: user.lvmLiveEntitlement,
+      flag_learning: user.lvmLearningEntitlement
+    }
+  }
+
+  getId(user) {
+    return user.id;
+  }
+
+  fetchFromRequest(request) {
+    console.log('request.body.session :', request.body.session);
+    console.log('user :', request.session.user);
+    return request.body.session.user;
+  }
+
+  getUserByEmail(email) {
+    return this.knex
+      .select('*')
+      .from('users')
+      .where({ mail: email })
+      .then(resultSet => {
+        return _.head(_.map(resultSet, UsersServices.transformUserDb));
+      });
+  }
+
+  saveUser(user) {
+    return this.getUserId(user.mail)
+      .then((userId) => {
+        if(userId) {
+          return this.updateUser(userId, user).then((res) => {
+            return res;
+          });
+        }
+        else {
+          return this.insertUser(user).then((res) => {
+            return res;
+          });
+        }
+      });
+  }
+
+  insertUser(user) {
+    return this.knex('users')
+      .insert(user)
+      .then((res) => {
+        return res;
+    });
+  }
+
+  updateUser(userId, user) {
+    user.updated_at = new Date();
+    return this.knex('users')
+      .update(user)
+      .where('id', userId)
+      .then((res) => {
+        return res;
+      });
+  }
+
+  getUserId(email) {
+    return this.knex
+      .raw("select id from users where mail = '" + email + "'")
+      .then((res) => {
+        if(!res.rows.length) {
+          return 0;
+        }
+        return res.rows[0].id;
+      });
   }
 
   getUsers() {

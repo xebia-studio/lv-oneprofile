@@ -10,6 +10,8 @@
 /* eslint-disable max-len */
 /* jscs:disable maximumLineLength */
 
+import fs from 'fs';
+
 export const port = process.env.PORT || 3000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
@@ -63,4 +65,25 @@ export const db = {
     max: process.env.POSTGRESQL_POOL_MAX || 256,
     bailAfter: process.env.POSTGRESQL_BAIL_AFTER || Infinity
   }
+};
+
+export const idol = {
+  credentials: {
+    username: process.env.IDOL_USERNAME || 'idol',
+    password: process.env.IDOL_PASSWORD || 'idolP@ss'
+  }
+};
+
+export const SAMLStrategy = {
+  entryPoint: process.env.SAML_ENTRY_POINT || 'https://fed-prp.vuitton.biz/adfs/ls/',
+  issuer: process.env.SAML_ISSUER || 'LV-ONEPROFILE',
+  callbackUrl: process.env.SAML_CALLBACK_URL || 'https://oneprofile-prd.herokuapp.com/api/v1/oauth/login',
+  cert: process.env.SAML_CERTIFICATE,
+  privateCert: fs.readFileSync(`${__dirname}/certificates/saml/saml.pem`, 'utf-8'),
+  decryptionPvk: fs.readFileSync(`${__dirname}/certificates/saml/saml.pem`, 'utf-8'),
+  identifierFormat: null
+};
+
+export const SAML = {
+  entryId: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
 };
