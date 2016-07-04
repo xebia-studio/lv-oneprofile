@@ -13,8 +13,10 @@ CREATE TABLE users (
   unique_id       TEXT,
   job             TEXT,
   event           TEXT,
-  flagLive        TEXT,
-  flagLearning    TEXT
+  flag_live        TEXT,
+  flag_learning    TEXT,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 -- CREATE INDEX users_email ON users USING BTREE (mail);
 
