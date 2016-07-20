@@ -6,6 +6,7 @@
 import Knex from "knex";
 import * as _ from 'lodash';
 import { db } from "../config";
+import { countries } from "../lib/utils";
 
 export default class UsersServices {
 
@@ -18,10 +19,10 @@ export default class UsersServices {
       lastName: user.lastname,
       firstName: user.firstname,
       job: user.job,
-      mail: user.mail,
-      country: user.country,
+      email: user.email,
+      country: countries[user.country],
       zone: user.zone,
-      seniority: user.seniority,
+      seniority: UsersServices.getSeniorityValue(user.seniority),
       workLocation: user.work_location,
       uniqueId: user.unique_id,
       displayName: user.displayname,
@@ -37,7 +38,7 @@ export default class UsersServices {
       lastname: user.Name,
       firstname: user.GivenName,
       job: user.JobClassificationLabel,
-      mail: user.Mail,
+      email: user.Mail,
       country: user.Country,
       zone: user.Zone,
       seniority: user.ContractStartDate,
@@ -48,15 +49,18 @@ export default class UsersServices {
       flag_live: user.lvmLiveEntitlement,
       flag_learning: user.lvmLearningEntitlement
     }
-  }
+  };
+
+  static getSeniorityValue(date) {
+    const objDate = new Date(date);
+    return objDate.toLocaleString("en-EN", { month:"long", year: "numeric" });
+  };
 
   getId(user) {
     return user.id;
   }
 
   fetchFromRequest(request) {
-    console.log('request.body.session :', request.body.session);
-    console.log('user :', request.session.user);
     return request.body.session.user;
   }
 
@@ -64,14 +68,14 @@ export default class UsersServices {
     return this.knex
       .select('*')
       .from('users')
-      .where({ mail: email })
+      .where({ email: email })
       .then(resultSet => {
         return _.head(_.map(resultSet, UsersServices.transformUserDb));
       });
   }
 
   saveUser(user) {
-    return this.getUserId(user.mail)
+    return this.getUserId(user.email)
       .then((userId) => {
         if(userId) {
           return this.updateUser(userId, user).then((res) => {
@@ -106,7 +110,7 @@ export default class UsersServices {
 
   getUserId(email) {
     return this.knex
-      .raw("select id from users where mail = '" + email + "'")
+      .raw("select id from users where email = '" + email + "'")
       .then((res) => {
         if(!res.rows.length) {
           return 0;
