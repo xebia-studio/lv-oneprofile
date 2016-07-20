@@ -61,15 +61,11 @@ DROP TABLE IF EXISTS users_live;
 CREATE TABLE users_live (
   id int,
   email varchar(255) NOT NULL,
-  password varchar(255),
-  token varchar(255),
-  phone varchar(255),
-  description varchar(2040),
   doesExist boolean default true
 );
 
 -- EXECUTE this request on live to get all emails :
-mysql -e "select concat('INSERT INTO users_live values(', users.id, ', \'', users.email, '\'', ', \'', COALESCE(users.password, ''), '\', ', '\'', COALESCE(users.token, ''), '\', ', '\'', COALESCE(users.phone, ''), '\', ', '\'', REPLACE(COALESCE(users.description, ''), '\'', '\'\''), '\');') as toinsert from users" -h host --default-character-set=utf8mb4 -u user -ppassword database > dump-test.sql
+mysql -e "select concat('INSERT INTO users_live values(', users.id, ', \'', users.email, '\');') as toinsert from users" -h host --default-character-set=utf8mb4 -u user -ppassword database > dump-test.sql
 
 update users set id = id + 40000;
 
@@ -96,7 +92,7 @@ BEGIN
 	    RAISE NOTICE 'user % not found', user_rec.email;
 	  ELSE
 	    RAISE NOTICE 'id for % : %', user_rec.email, user_rec.id;
-	    update users set id = user_rec.id, password = user_rec.password, token = user_rec.token, phone = user_rec.phone, description = user_rec.description
+	    update users set id = user_rec.id
 	    where email = user_rec.email;
 	  END IF;
    END LOOP;
