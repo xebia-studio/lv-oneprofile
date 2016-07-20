@@ -6,9 +6,7 @@
 import Knex from "knex";
 import * as _ from 'lodash';
 import { db } from "../config";
-import * as bcrypt from 'bcryptjs';
-import * as uuid from 'uuid';
-import moment from 'moment';
+import { countries } from "../lib/utils";
 
 export default class UsersServices {
 
@@ -63,8 +61,6 @@ export default class UsersServices {
   };
 
   fetchFromRequest(request) {
-    console.log('request.body.session :', request.body.session);
-    console.log('user :', request.session.user);
     return request.body.session.user;
   };
 
