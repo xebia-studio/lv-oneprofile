@@ -63,5 +63,4 @@ router.get('/infos/stores', (req, res) => {
     });
 });
 
-
 export default router;

@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import passport from 'passport';
 import UserService from '../../../services/usersService';
+import LiveService from '../../../services/liveService';
 
 const router = new Router();
 const usersService = new UserService();
+const liveService = new LiveService();
 
 router.post('/updateUser', passport.authenticate('basic', { session: false }), (req, res, next) => {
   let user = req.body;
@@ -18,7 +20,14 @@ router.post('/updateUser', passport.authenticate('basic', { session: false }), (
   user = UserService.transformUserFromICON(user);
   usersService.saveUser(user)
   .then(() => {
-    res.status(200).end();
+    liveService.sendWebhook(user)
+    .then((result) => {
+      res.status(200).end();
+    })
+    .catch((err) => {
+      console.error('Server error on live update :', err.message);
+      res.status(500).end(err.message);
+    });
   })
   .catch((err) => {
     console.error('Server error :', err.message);

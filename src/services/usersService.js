@@ -20,9 +20,9 @@ export default class UsersServices {
       firstName: user.firstname,
       job: user.job,
       email: user.email,
-      country: countries[user.country],
+      country: user.country,
       zone: user.zone,
-      seniority: UsersServices.getSeniorityValue(user.seniority),
+      seniority: user.seniority,
       workLocation: user.work_location,
       uniqueId: user.unique_id,
       displayName: user.displayname,
@@ -30,7 +30,7 @@ export default class UsersServices {
       flagLive: user.flag_live,
       flagLearning: user.flag_learning
     }
-  }
+  };
 
   static transformUserFromICON(user) {
     return {
@@ -39,9 +39,9 @@ export default class UsersServices {
       firstname: user.GivenName,
       job: user.JobClassificationLabel,
       email: user.Mail,
-      country: user.Country,
+      country: countries[user.Country],
       zone: user.Zone,
-      seniority: user.ContractStartDate,
+      seniority: UsersServices.getSeniorityValue(user.ContractStartDate),
       work_location: user.Store,
       unique_id: user.HRUniqueID,
       displayname: user.GivenName + ' ' + user.Name,
@@ -58,11 +58,11 @@ export default class UsersServices {
 
   getId(user) {
     return user.id;
-  }
+  };
 
   fetchFromRequest(request) {
     return request.body.session.user;
-  }
+  };
 
   getUserByEmail(email) {
     return this.knex
@@ -72,7 +72,7 @@ export default class UsersServices {
       .then(resultSet => {
         return _.head(_.map(resultSet, UsersServices.transformUserDb));
       });
-  }
+  };
 
   saveUser(user) {
     return this.getUserId(user.email)
@@ -88,7 +88,7 @@ export default class UsersServices {
           });
         }
       });
-  }
+  };
 
   insertUser(user) {
     return this.knex('users')
@@ -96,7 +96,7 @@ export default class UsersServices {
       .then((res) => {
         return res;
     });
-  }
+  };
 
   updateUser(userId, user) {
     user.updated_at = new Date();
@@ -106,7 +106,7 @@ export default class UsersServices {
       .then((res) => {
         return res;
       });
-  }
+  };
 
   getUserId(email) {
     return this.knex
@@ -117,7 +117,7 @@ export default class UsersServices {
         }
         return res.rows[0].id;
       });
-  }
+  };
 
   getUsers() {
     return this.knex
@@ -126,7 +126,7 @@ export default class UsersServices {
       .then(resultSet => {
         return _.map(resultSet, UsersServices.transformUserDb);
       });
-  }
+  };
 
   getUserById(id) {
     return this.knex
@@ -136,7 +136,7 @@ export default class UsersServices {
       .then(resultSet => {
         return _.head(_.map(resultSet, UsersServices.transformUserDb));
       });
-  }
+  };
 
   getUsersByIds(ids) {
     return this.knex
@@ -146,7 +146,7 @@ export default class UsersServices {
       .then(resultSet => {
         return _.map(resultSet, UsersServices.transformUserDb);
       });
-  }
+  };
 
   getUsersByDisplayName(displayName) {
     return this.knex
@@ -160,7 +160,7 @@ export default class UsersServices {
         }
         return _.map(resultSet.rows, UsersServices.transformUserDb);
       });
-  }
+  };
 
   getDistinctCountriesFromUsers() {
     return this.knex
@@ -171,7 +171,7 @@ export default class UsersServices {
       .then(countries => {
         return _.map(countries, 'country');
       });
-  }
+  };
 
   getDistinctStoresFromUsers() {
     return this.knex
@@ -182,6 +182,6 @@ export default class UsersServices {
       .then(countries => {
         return _.map(countries, 'work_location');
       });
-  }
+  };
 
 }

@@ -45,8 +45,7 @@ export const auth = {
   twitter: {
     key: process.env.TWITTER_CONSUMER_KEY || 'Ie20AZvLJI2lQD5Dsgxgjauns',
     secret: process.env.TWITTER_CONSUMER_SECRET || 'KTZ6cxoKnEakQCeSpZlaUCJWGAlTEBJj0y2EMkUBujA7zWSvaQ',
-  },
-
+  }
 };
 
 export const db = {
@@ -72,4 +71,10 @@ export const idol = {
     username: process.env.IDOL_USERNAME || 'idol',
     password: process.env.IDOL_PASSWORD || 'idolP@ss'
   }
+};
+
+export const live = {
+  host: process.env.LIVE_HOST || 'https://lvlive-prd.herokuapp.com',
+  usersUpdateEndpoint: process.env.LIVE_USERS_UPDATE_ENDPOINT || '/admin/api/accounts/update',
+  basicAuthorization: process.env.LIVE_BASIC_AUTHORIZATION
 };

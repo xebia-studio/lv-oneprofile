@@ -5,7 +5,7 @@ CREATE TABLE users (
   lastname        TEXT,
   firstname       TEXT,
   displayname     TEXT,
-  mail            TEXT NOT NULL,
+  email            TEXT NOT NULL,
   country         TEXT,
   zone            TEXT,
   seniority       TEXT,
@@ -18,19 +18,19 @@ CREATE TABLE users (
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
--- CREATE INDEX users_email ON users USING BTREE (mail);
+-- CREATE INDEX users_email ON users USING BTREE (email);
 
 -- SELECT CONCAT('INSERT INTO users (
 --     "displayname",
 --     "username",
 --     "lastname",
 --     "firstname",
---     "mail",
+--     "email",
 --     "country",
 --     "zone",
 --     "seniority",
 --     "work_location")
---     values (''', infos.displayname, ''', ''', lower(replace(CONCAT(LEFT(infos.firstname , 1), infos.lastname) , ' ','')), ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.mail, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''');')
+--     values (''', infos.displayname, ''', ''', lower(replace(CONCAT(LEFT(infos.firstname , 1), infos.lastname) , ' ','')), ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.email, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''');')
 --   from (SELECT
 --       id,
 --       displayName as displayname,
@@ -38,7 +38,7 @@ CREATE TABLE users (
 --       CONCAT(If(  length(displayName) - length(replace(displayName, ' ', ''))>1,
 -- 		  CONCAT(SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 2), ' ', -1), ' '), ''),
 --       SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 3), ' ', -1)) AS lastname,
---       email as mail,
+--       email as email,
 --       country,
 --       area as zone,
 --       seniority,
@@ -72,12 +72,12 @@ SELECT
     "username",
     "lastname",
     "firstname",
-    "mail",
+    "email",
     "country",
     "zone",
     "seniority",
     "work_location")
-    values (''', infos.displayname, ''', ''', lower(replace(CONCAT(LEFT(infos.firstname , 1), infos.lastname) , ' ','')), ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.mail, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''');')
+    values (''', infos.displayname, ''', ''', lower(replace(CONCAT(LEFT(infos.firstname , 1), infos.lastname) , ' ','')), ''', ''', infos.lastname, ''', ''', infos.firstname, ''', ''', infos.email, ''', ''', ifnull(infos.country, ''), ''', ''', ifnull(infos.zone, ''), ''', ''', ifnull(infos.seniority, ''), ''', ''', ifnull(infos.work_location, ''), ''');')
 from (SELECT
       id,
       displayName as displayname,
@@ -85,7 +85,7 @@ from (SELECT
       CONCAT(If(  length(displayName) - length(replace(displayName, ' ', ''))>1,
 		  CONCAT(SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 2), ' ', -1), ' '), ''),
       SUBSTRING_INDEX(SUBSTRING_INDEX(displayName, ' ', 3), ' ', -1)) AS lastname,
-      email as mail,
+      email as email,
       country,
       area as zone,
       seniority,
@@ -156,7 +156,7 @@ BEGIN
     nb_emails := array_length(emails, 1);
     IF nb_emails > 0 THEN
       FOR i IN 1 .. nb_emails LOOP
-	      EXECUTE 'SELECT id FROM users WHERE mail = $1'
+	      EXECUTE 'SELECT id FROM users WHERE email = $1'
 		    INTO user_id
 		    USING emails[i];
 	      IF user_id IS NULL
