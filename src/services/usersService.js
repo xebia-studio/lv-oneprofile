@@ -39,7 +39,7 @@ export default class UsersServices {
       firstname: user.GivenName,
       job: user.JobClassificationLabel,
       email: user.Mail,
-      country: user.Country,
+      country: countries[user.Country],
       zone: user.Zone,
       seniority: UsersServices.getSeniorityValue(user.ContractStartDate),
       work_location: user.Store,
