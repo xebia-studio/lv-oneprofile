@@ -14,7 +14,7 @@ export default class LiveService {
       uri: live.host + live.usersUpdateEndpoint,
       json: true,
       headers: {
-        'Authorization': live.basicAuthorization
+        'Authorization': 'Basic ' + live.basicAuthorization
       },
       body: user,
       resolveWithFullResponse: true
